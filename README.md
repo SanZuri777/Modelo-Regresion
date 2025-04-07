@@ -35,25 +35,24 @@ El R² (Coeficiente de determinación) indica cuánta varianza del valor objetiv
 
 📈 Evaluación general:
 
-El modelo no está sobreajustado (train y test similares).
-
-Con un R² > 0.75, estás explicando el ~76% de la variabilidad en los datos de test, lo cual es bastante bueno considerando que estás prediciendo una variable tan subjetiva como el nivel de ansiedad.
-
-El MSE está en un rango razonable considerando que la escala es de 1 a 10.
+El modelo muestra un rendimiento sólido, con un R² de 0.76 en el conjunto de prueba, lo que indica una buena capacidad para capturar la variabilidad en los niveles de ansiedad. Además, la diferencia entre el error en entrenamiento y prueba es mínima, lo que sugiere que no hay sobreajuste.
 
 
-## 📉 ¿Cómo interpretar y explicar la gráfica?
-  
-  La gráfica representa:
+## 📉 La gráfica representa:
 
   Eje X: valores reales (niveles de ansiedad reales).
+![image](https://github.com/user-attachments/assets/dcdc580a-69f7-42f9-844d-8a8bb7e283ee)
 
   Eje Y: predicciones del modelo.
 
   Línea negra discontinua: la línea de identidad (donde predicción = valor real). Idealmente, los puntos estarían alineados ahí si el modelo fuera perfecto.
 
-  Puntos celestes: cada punto representa una predicción del modelo para un caso del set de test.
+  Puntos azules: cada punto representa una predicción del modelo para un caso del set de test.
 
+
+## 🧠 Conclusión
+
+El modelo logró predecir de forma bastante precisa los niveles de ansiedad, con un buen desempeño general y sin señales de sobreajuste. Aunque tiende a suavizar los valores más extremos, sigue bien la tendencia de los datos. Este ejercicio demuestra cómo el Machine Learning puede ser una herramienta útil para explorar variables psicológicas complejas a partir de datos cotidianos.
 
 
 
