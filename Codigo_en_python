@@ -1,1 +1,95 @@
 # Primero que nada, te dejo el link del dataset por si gustas trabajar con el, https://www.kaggle.com/datasets/natezhang123/social-anxiety-dataset
+
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.metrics import accuracy_score, classification_report, mean_squared_error, r2_score
+from sklearn.preprocessing import RobustScaler, MinMaxScaler, StandardScaler
+
+
+df = pd.read_csv("enhanced_anxiety_dataset.csv")
+df['ID'] = range(1, len(df) + 1)
+
+
+pd.set_option('display.max_columns', None)
+df
+
+
+corrmat = df.corr(numeric_only=True)
+f, ax = plt.subplots(figsize=(16,10))
+sns.heatmap(corrmat, vmin=-1, vmax=1, square=True, linewidths=0.5, annot=True, fmt=".2f", cmap="coolwarm")
+plt.show()
+
+
+#Quitamos las variables que no nos van a servir para nuestro analisis
+
+data_clean = df.drop(columns = ['ID','Breathing Rate (breaths/min)','Sweating Level (1-5)','Heart Rate (bpm)','Breathing Rate (breaths/min)','Sweating Level (1-5)','Diet Quality (1-10)'])
+data_clean
+
+
+# Seleccionamos nuestros datos categóricos para normalizar la tabla
+categoricos = df.select_dtypes(include=["object"]).columns
+listcateg = list(categoricos)
+
+# Aplicar one-hot encoding (manteniendo la variable objetivo original)
+data_with_dummies = pd.get_dummies(data_clean, columns=listcateg, drop_first=True)
+
+# Separar ANTES de escalar
+y = data_with_dummies["Anxiety Level (1-10)"]
+X = data_with_dummies.drop(columns=["Anxiety Level (1-10)"])
+
+# Escalar solo las características (X)
+scaler = RobustScaler()
+X_scaled = scaler.fit_transform(X)
+X_scaled = pd.DataFrame(X_scaled, columns=X.columns)
+
+# Recombinar (la variable 'y' nunca fue escalada)
+dataf = pd.concat([X_scaled, y], axis=1)
+
+# --- DIVISIÓN TRAIN/TEST ---
+train_val_df, test_df = train_test_split(dataf, test_size=0.2, random_state=12)
+
+# Separar variables
+x_train, y_train = train_val_df.drop(columns=["Anxiety Level (1-10)"], axis=1), train_val_df["Anxiety Level (1-10)"]
+x_test, y_test = test_df.drop(columns=["Anxiety Level (1-10)"], axis=1), test_df["Anxiety Level (1-10)"]
+
+# --- Evitar sobreajuste en el modelo
+rfr_model = RandomForestRegressor(
+    n_estimators=150,
+    max_depth=8,
+    min_samples_split=10,
+    min_samples_leaf=5,
+    max_features='sqrt',
+    bootstrap=True,
+    random_state=12,
+    n_jobs=-1
+)
+
+# Entrenamiento
+rfr_model.fit(x_train, y_train)
+
+# Predicciones
+y_train_pred = rfr_model.predict(x_train)
+y_test_pred = rfr_model.predict(x_test)
+
+# Métricas
+train_mse = mean_squared_error(y_train, y_train_pred)
+test_mse = mean_squared_error(y_test, y_test_pred)
+train_r2 = r2_score(y_train, y_train_pred)
+test_r2 = r2_score(y_test, y_test_pred)
+
+print("Resultados después de las mejoras:")
+print(f"Train MSE: {train_mse:.4f} | Test MSE: {test_mse:.4f}")
+print(f"Train R²: {train_r2:.4f} | Test R²: {test_r2:.4f}")
+
+# Gráfico
+plt.figure(figsize=(10,5))
+plt.scatter(y_test, y_test_pred, color="blue", alpha=0.5)
+plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'k--', lw=2)  # Línea de referencia
+plt.xlabel("Valores Reales")
+plt.ylabel("Predicciones")
+plt.title("Predicciones vs Valores Reales (Test)")
+plt.show()
