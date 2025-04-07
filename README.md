@@ -1,5 +1,6 @@
 # Modelo Regresión
-  Este trabajo es una regresión lineal en la cual hice un modelo de machine learning para predecir el nivel de ansiedad de las personas (basándome en un dataset), donde pude aprender diferentes temas.
+  Este trabajo es una regresión lineal en la cual hice un modelo de machine learning para predecir el nivel de ansiedad de las personas (basándome en un dataset), pude aprender un poco más sobre la carrera que estoy estudiando.
+  
   Un modelo de regresión es una técnica de análisis de datos que predice el valor de datos desconocidos mediante el uso de otro valor de datos relacionado y conocido
 
 ## ¿Qué modelo utilice?
