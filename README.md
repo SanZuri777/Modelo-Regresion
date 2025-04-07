@@ -1,6 +1,6 @@
 # Modelo Regresión
-
-  Después de estar investigando, de muchos errores y ayuda de un amigo, pude terminar este trabajo en el cual he aprendido bastante, el uso de un modelo de Machine Learning, utilizando un dataset bajado de kaggle (una página de ayuda para obtener datasets).
+  Este trabajo es una regresión lineal en la cual hice un modelo de machine learning para predecir el nivel de ansiedad de las personas (basándome en un dataset), donde pude aprender diferentes temas.
+  Un modelo de regresión es una técnica de análisis de datos que predice el valor de datos desconocidos mediante el uso de otro valor de datos relacionado y conocido
 
 ## ¿Qué modelo utilice?
 
