@@ -1,4 +1,4 @@
-#Modelo Regresión
+##Modelo Regresión
 
 Después de estar investigando, de muchos errores y ayuda de un amigo, pude terminar este trabajo en el cual he aprendido bastante, el uso de un modelo de Machine Learning, utilizando un dataset bajado de kaggle (una página de ayuda para obtener datasets).
 
